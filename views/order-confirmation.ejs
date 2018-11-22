@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Anda akan memesan <%=data.title%></h1><br>
+    <h3>dari penjual <%=data.Seller.name%></h3><br>
+    <h3>rating penjual <%=data.Seller.rating%></h3><br>
+    <br>
+    <p>Silahkan transfer sebesar Rp <%=data.price%> ke rekening mandiri 1370082764981 atas nama PT. Pazano Patria Fauzan Oke</p>
+    <p>Setelah transfer silahkan klik link dibawah agar pesanan anda kami teruskan ke penjual</p>
+    <a href="/service/<%=data.id%>/order/processed">Saya sudah bayar, Teruskan Pesanan Saya Cepattt</a>
+  </body>
+</html>

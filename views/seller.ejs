@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Hai, <%=data.sellerName%></h1>
+    <a href="/service/add-service">Mulai jual jasamu</a>
+    <h1>Pending Order</h1>
+    <%data.pending.forEach(function(element){%>
+      <h3><%=element.Stall.title%></h3>
+      <p>Buyer name: <%=element.Buyer.name%></p>
+      <p>Tanggal: <%=element.createdAt%></p>
+      <a href="/service/<%=element.id%>/accept">Terima</a>
+      <a href="/service/<%=element.id%>/decline" onclick="return confirm('Apakah anda yakin menolak pesanan ini?')">Tolak</a>
+    <%})%><br><br>
+    <h1>On Process Order</h1>
+    <%data.process.forEach(function(element){%>
+      <h3><a href="/transaction/detail/<%=element.id%>"><%=element.Stall.title%></a></h3>
+      <p>Buyer name: <%=element.Buyer.name%></p>
+      <p>Tanggal: <%=element.createdAt%></p>
+    <%})%><br><br>
+    <h1>Order Done</h1>
+    <%data.done.forEach(function(element){%>
+      <h3><%=element.Stall.title%></h3>
+      <p>Buyer name: <%=element.Buyer.name%></p>
+      <p>Tanggal: <%=element.createdAt%></p>
+    <%})%>
+  </body>
+</html>

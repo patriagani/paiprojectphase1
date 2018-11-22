@@ -4,10 +4,13 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     username: DataTypes.STRING,
     email: DataTypes.STRING,
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    rating: DataTypes.INTEGER
   }, {});
   Seller.associate = function(models) {
     Seller.hasMany(models.Stall, {foreignKey: 'SellerId'});
+    Seller.hasMany(models.Transaction, {foreignKey: 'SellerId'});
+    Seller.belongsToMany(models.Buyer, {through: 'Transaction', foreignKey: 'SellerId'});
   };
   return Seller;
 };

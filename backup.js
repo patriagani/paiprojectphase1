@@ -2,7 +2,6 @@ const Model = require('../models')
 const Buyer = Model.Buyer
 const Transaction = Model.Transaction
 const Stall = Model.Stall
-const Seller = Model.Seller
 
 class BuyerController {
   static create(req, res) {
@@ -47,13 +46,7 @@ class BuyerController {
   static preOrderService(req, res) {
     Stall.findOne({include: [{ model: Seller}], where: {id: req.params.stallId}})
       .then(function(dataStall) {
-        if (!req.session.user || req.session.user.role !== "Buyer") {
-          // res.redirect('/')
-          res.send('harap login sebagai buyer')
-        }
-        else {
-          res.render('order-confirmation', {data: dataStall})
-        }
+        res.render('order-confirmation', {data: dataStall})
       })
       .catch(function(err) {
         res.send(err)
@@ -74,36 +67,6 @@ class BuyerController {
       .catch(function(err) {
         res.send(err)
       })
-  }
-
-  static buyerPage(req, res) {
-    if (!req.session.user || req.session.user.role !== "Buyer") {
-      res.send('harap login sebagai buyer')
-    }
-    else {
-      let transaction = {}
-      transaction.buyerName = req.session.user.name
-      Transaction.findAll({include: [{ model: Stall}, { model: Seller}], where: {status: "Pending"}})
-      .then(function(transactionPending) {
-        transaction.pending = transactionPending
-        return Transaction.findAll({include: [{ model: Stall}, { model: Seller}], where: {status: "On Process"}})
-      })
-      .then(function(transactionProcess) {
-        transaction.process = transactionProcess
-        return Transaction.findAll({include: [{ model: Stall}, { model: Seller}], where: {status: "Done"}})
-      })
-      .then(function(transactionDone) {
-        transaction.done = transactionDone
-      })
-      .then(function() {
-        // res.send(transaction)
-        res.render('buyer', {data: transaction})
-      })
-      .catch(function(err) {
-        res.send(err.message)
-      })
-    }
-  }
 }
 
 module.exports = BuyerController

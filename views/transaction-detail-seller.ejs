@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1><%=transaction.Stall.title%></h1><br>
+    <h3>Kolom pesan</h3>
+    <%comment.forEach(function(element){%>
+      <h4><%=element.sender%> : <%=element.comment%></h4>
+    <%})%>
+    <h3>Kirim pesan ke pembeli</h3>
+    <form method="POST" action="/transaction/detail/<%=transaction.id%>">
+     Message:<br>
+     <textarea name="comment" rows="10" cols="30">tulis pesanmu disini.</textarea><br>
+     <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

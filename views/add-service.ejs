@@ -5,6 +5,26 @@
     <title></title>
   </head>
   <body>
-
+    <h1>Mulai jual jasamu</h1>
+    <form method="POST" action="/service/add-service">
+     Jualan apa ?:<br>
+     <input type="text" name="title" placeholder="tulis judul jasamu disini"><br><br>
+     Harga Jasamu:<br>
+     <input type="number" min="0" name="price"><br><br>
+     Kategori:<br>
+     <select name="CategoryId">
+       <option value="1">Graphic Design</option>
+       <option value="2">Digital Marketing</option>
+       <option value="3">Writing Translation</option>
+       <option value="4">Video and Animation</option>
+       <option value="5">Music and Audio</option>
+       <option value="6">Programming</option>
+       <option value="7">Fun and Lifestyle</option>
+     </select>
+     <br><br>
+     Deskripsi:<br>
+     <textarea name="description" rows="10" cols="30">tulis deskripsi jasamu disini.</textarea><br>
+     <input type="submit" value="Submit">
+    </form>
   </body>
 </html>

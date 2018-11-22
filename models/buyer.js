@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   Buyer.associate = function(models) {
     Buyer.hasMany(models.Transaction, {foreignKey: 'BuyerId'});
     Buyer.hasMany(models.Review, {foreignKey: 'BuyerId'});
+    Buyer.belongsToMany(models.Seller, {through: 'Transaction', foreignKey: 'BuyerId'});
   };
   return Buyer;
 };

@@ -12,5 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     Stall.hasMany(models.Transaction, {foreignKey: 'StallId'});
     Stall.hasMany(models.Review, {foreignKey: 'StallId'});
   };
+  Stall.prototype.getPrice = function () {
+    let price = this.price
+    return `Rp ${price}`
+  };
   return Stall;
 };
