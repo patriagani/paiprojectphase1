@@ -3,12 +3,9 @@ const SellerController = require('../controllers/SellerController.js')
 const BuyerController = require('../controllers/BuyerController.js')
 
 routes.get('/', function(req,res) {
-  res.render('signup')
+  req.session.user = {}
+  res.redirect('/')
 })
-
-routes.post('/seller', SellerController.create)
-
-routes.post('/buyer', BuyerController.create)
 
 
 module.exports = routes;

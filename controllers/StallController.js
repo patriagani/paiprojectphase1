@@ -15,11 +15,22 @@ class StallController {
       })
   }
 
+  static category(req, res) {
+    Stall.findAll({include: [{ model: Seller}], where: {id: req.params.categoryId}})
+      .then(function(dataStall) {
+        // res.send(dataStall)
+        res.render('service', {data: dataStall})
+      })
+      .catch(function(err) {
+        res.send(err.message)
+      })
+  }
+
   static serviceDetail(req, res) {
     Stall.findOne({include: [{model: Review}, {model: Seller}],where: {id: req.params.serviceId}})
     .then(function(dataStall) {
-      res.render('service-detail', {data: dataStall})
       // res.send(dataStall)
+      res.render('service-detail', {data: dataStall})
     })
     .catch(function(err) {
       res.send(err)

@@ -11,6 +11,10 @@
     <br><br>
     <h1>Deskripsi:</h1>
     <p><%=data.description%></p>
+    <h1>Reviews:</h1>
+    <%data.Reviews.forEach(function(element){%>
+      <p><%=element.review%></p>
+    <%})%>
     <h1>Harga: <%=data.price%></h1><br>
     <h1><a href="/service/<%=data.id%>/order">Order Now</a></h1>
 

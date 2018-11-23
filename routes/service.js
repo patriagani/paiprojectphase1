@@ -20,9 +20,13 @@ routes.post('/add-service', SellerController.addService)
 routes.get('/:serviceId', StallController.serviceDetail)
 
 routes.get('/:stallId/order', BuyerController.preOrderService)
-routes.get('/:stallId/order/processed', BuyerController.orderService)
+routes.get('/:stallId/order/processed/:sellerId', BuyerController.orderService)
 
 routes.get('/:serviceId/accept', SellerController.acceptOrder)
 routes.get('/:serviceId/decline', SellerController.declineOrder)
+
+routes.get('/category/:categoryId', StallController.category)
+
+
 
 module.exports = routes;

@@ -6,6 +6,7 @@
   </head>
   <body>
     <h1>Hai, <%=data.sellerName%></h1>
+    <a href="/signout">Sign Out</a>
     <a href="/service/add-service">Mulai jual jasamu</a>
     <h1>Pending Order</h1>
     <%data.pending.forEach(function(element){%>
@@ -21,7 +22,7 @@
       <p>Buyer name: <%=element.Buyer.name%></p>
       <p>Tanggal: <%=element.createdAt%></p>
     <%})%><br><br>
-    <h1>Order Done</h1>
+    <h1>Order Completed</h1>
     <%data.done.forEach(function(element){%>
       <h3><%=element.Stall.title%></h3>
       <p>Buyer name: <%=element.Buyer.name%></p>

@@ -8,4 +8,6 @@ routes.get('/detail/:transactionId', TransactionController.getDetailPage)
 
 routes.post('/detail/:transactionId', TransactionController.postComment)
 
+routes.post('/done/:transactionId', TransactionController.done)
+
 module.exports = routes;

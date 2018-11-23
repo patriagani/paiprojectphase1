@@ -3,6 +3,7 @@ const Buyer = Model.Buyer
 const Transaction = Model.Transaction
 const Stall = Model.Stall
 const Seller = Model.Seller
+const {checkHash} = require('../helpers')
 
 class BuyerController {
   static create(req, res) {
@@ -22,17 +23,23 @@ class BuyerController {
   }
 
   static signin(req, res) {
-    Buyer.findOne({where: {email: req.body.email, password: req.body.password}})
+    Buyer.findOne({where: {email: req.body.email}})
       .then(function(data) {
         if (data) {
-          req.session.user = {
-            id: data.id,
-            role: "Buyer",
-            email: req.body.email,
-            username: data.username,
-            name: data.name
+          if (checkHash(req.body.password, data.password)) {
+            req.session.user = {
+              id: data.id,
+              role: "Buyer",
+              email: req.body.email,
+              username: data.username,
+              name: data.name
+            }
+            res.redirect('/buyer')
           }
-          res.redirect('/buyer')
+          else {
+            let message = `email atau password anda salah, coba ingat ingat`
+            res.redirect(`/signin?msg=${message}`)
+          }
         }
         else {
           let message = `email atau password anda salah, coba ingat ingat`
@@ -64,6 +71,7 @@ class BuyerController {
     let obj = {
       StallId: req.params.stallId,
       BuyerId: req.session.user.id,
+      SellerId: req.params.sellerId,
       status: "Pending",
       rating: 0
     }
@@ -83,14 +91,14 @@ class BuyerController {
     else {
       let transaction = {}
       transaction.buyerName = req.session.user.name
-      Transaction.findAll({include: [{ model: Stall}, { model: Seller}], where: {status: "Pending"}})
+      Transaction.findAll({include: [{ model: Stall}, { model: Seller}], where: {BuyerId: req.session.user.id, status: "Pending"}})
       .then(function(transactionPending) {
         transaction.pending = transactionPending
-        return Transaction.findAll({include: [{ model: Stall}, { model: Seller}], where: {status: "On Process"}})
+        return Transaction.findAll({include: [{ model: Stall}, { model: Seller}], where: {BuyerId: req.session.user.id, status: "On Process"}})
       })
       .then(function(transactionProcess) {
         transaction.process = transactionProcess
-        return Transaction.findAll({include: [{ model: Stall}, { model: Seller}], where: {status: "Done"}})
+        return Transaction.findAll({include: [{ model: Stall}, { model: Seller}], where: {BuyerId: req.session.user.id, status: "Done"}})
       })
       .then(function(transactionDone) {
         transaction.done = transactionDone

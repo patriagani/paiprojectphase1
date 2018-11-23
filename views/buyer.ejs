@@ -5,7 +5,8 @@
     <title></title>
   </head>
   <body>
-    <h1>Hai, <%=data.sellerName%></h1>
+    <h1>Hai, <%=data.buyerName%></h1>
+    <a href="/signout">Sign Out</a>
     <a href="/service/">Beli jasa lainnya</a>
     <h1>Pending Order</h1>
     <%data.pending.forEach(function(element){%>
@@ -19,11 +20,12 @@
       <p>Seller name: <%=element.Seller.name%></p>
       <p>Tanggal: <%=element.createdAt%></p>
     <%})%><br><br>
-    <h1>Order Done</h1>
+    <h1>Order Completed</h1>
     <%data.done.forEach(function(element){%>
       <h3><%=element.Stall.title%></h3>
       <p>Seller name: <%=element.Seller.name%></p>
       <p>Tanggal: <%=element.createdAt%></p>
     <%})%>
+    <br><br>
   </body>
 </html>

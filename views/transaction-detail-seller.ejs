@@ -16,5 +16,15 @@
      <textarea name="comment" rows="10" cols="30">tulis pesanmu disini.</textarea><br>
      <input type="submit" value="Submit">
     </form>
+    <br><br>
+    <h3>Beri Rating dan konfirmasikan pesanan telah selesai</h3>
+    <form method="POST" action="/transaction/done/<%=transaction.id%>">
+     Rating:<br>
+     <input type="number" min="1" max="5" name="rating"><br>
+     Review:<br>
+     <textarea name="review" rows="10" cols="30">tulis reviewmu disini.</textarea><br><br>
+     <input type="hidden" name="stallId" value="<%=transaction.Stall.id%>"><br>
+     <input type="submit" value="Konfirmasi Pesanan Selesai">
+    </form>
   </body>
 </html>

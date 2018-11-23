@@ -1,4 +1,6 @@
 'use strict';
+const {encrypt} = require('../helpers')
+
 module.exports = (sequelize, DataTypes) => {
   const Seller = sequelize.define('Seller', {
     name: DataTypes.STRING,
@@ -6,7 +8,13 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     rating: DataTypes.INTEGER
-  }, {});
+  }, {
+    hooks: {
+      beforeCreate: function(user, options) {
+        user.password = encrypt(user.password)
+      }
+    }
+  });
   Seller.associate = function(models) {
     Seller.hasMany(models.Stall, {foreignKey: 'SellerId'});
     Seller.hasMany(models.Transaction, {foreignKey: 'SellerId'});

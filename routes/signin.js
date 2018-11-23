@@ -11,6 +11,4 @@ routes.post('/seller', SellerController.signin)
 routes.post('/buyer', BuyerController.signin)
 
 
-
-
 module.exports = routes;

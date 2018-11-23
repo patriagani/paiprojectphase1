@@ -3,6 +3,7 @@ const Seller = Model.Seller
 const Stall = Model.Stall
 const Buyer = Model.Buyer
 const Transaction = Model.Transaction
+const {checkHash} = require('../helpers')
 
 class SellerController {
   static create(req, res) {
@@ -28,14 +29,14 @@ class SellerController {
     else {
       let transaction = {}
       transaction.sellerName = req.session.user.name
-      Transaction.findAll({include: [{ model: Buyer}, { model: Stall}], where: {status: "Pending"}})
+      Transaction.findAll({include: [{ model: Buyer}, { model: Stall}], where: {SellerId: req.session.user.id, status: "Pending"}})
       .then(function(transactionPending) {
         transaction.pending = transactionPending
-        return Transaction.findAll({include: [{ model: Buyer}, { model: Stall}], where: {status: "On Process"}})
+        return Transaction.findAll({include: [{ model: Buyer}, { model: Stall}], where: {SellerId: req.session.user.id, status: "On Process"}})
       })
       .then(function(transactionProcess) {
         transaction.process = transactionProcess
-        return Transaction.findAll({include: [{ model: Buyer}, { model: Stall}], where: {status: "Done"}})
+        return Transaction.findAll({include: [{ model: Buyer}, { model: Stall}], where: {SellerId: req.session.user.id, status: "Done"}})
       })
       .then(function(transactionDone) {
         transaction.done = transactionDone
@@ -51,29 +52,23 @@ class SellerController {
   }
 
   static signin(req, res) {
-    Seller.findOne({where: {email: req.body.email, password: req.body.password}})
+    Seller.findOne({where: {email: req.body.email}})
       .then(function(data) {
         if (data) {
-          res.redirect('/')
-        }
-      })
-      .catch(function(err) {
-        res.send(err)
-      })
-  }
-
-  static signin(req, res) {
-    Seller.findOne({where: {email: req.body.email, password: req.body.password}})
-      .then(function(data) {
-        if (data) {
-          req.session.user = {
-            id: data.id,
-            role: "Seller",
-            email: req.body.email,
-            username: data.username,
-            name: data.name
+          if (checkHash(req.body.password, data.password)) {
+            req.session.user = {
+              id: data.id,
+              role: "Seller",
+              email: req.body.email,
+              username: data.username,
+              name: data.name
+            }
+            res.redirect('/seller')
           }
-          res.redirect('/seller')
+          else {
+            let message = `email atau password anda salah, coba ingat ingat`
+            res.redirect(`/signin?msg=${message}`)
+          }
         }
         else {
           let message = `email atau password anda salah, coba ingat ingat`
